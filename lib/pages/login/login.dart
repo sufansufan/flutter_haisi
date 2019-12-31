@@ -12,6 +12,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   TabController _tabController;
   List tabs = ['登录', '注册'];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -25,20 +26,19 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
     return Scaffold(
       body: Container(
-        child: Stack(
-          children: <Widget>[
-            Container(
-              width: ScreenUtil().setWidth(750),
-              height: ScreenUtil().setHeight(1334),
-              color: Colors.white,
-            ),
-            Image.asset('lib/images/login/loginBg.png'),
-            _loginContent(),
-            _rightImage(),
-            _loginBottom()
-          ],
-        )
-      ),
+          child: Stack(
+        children: <Widget>[
+          Container(
+            width: ScreenUtil().setWidth(750),
+            height: ScreenUtil().setHeight(1334),
+            color: Colors.white,
+          ),
+          Image.asset('lib/images/login/loginBg.png'),
+          _loginContent(),
+          _rightImage(),
+          _loginBottom()
+        ],
+      )),
     );
   }
 
@@ -83,11 +83,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       left: 20,
       child: Container(
         width: ScreenUtil().setWidth(675),
-        height: ScreenUtil().setHeight(900),
+        height: ScreenUtil().setHeight(1334),
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0))),
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0))),
         child: _conTentBox(),
       ),
     );
@@ -106,16 +108,15 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       width: ScreenUtil().setWidth(300),
       height: ScreenUtil().setHeight(100),
       child: TabBar(
-        controller: _tabController,
-        tabs: tabs.map((e) => Tab(text: e)).toList(),
-        indicatorColor: Color(0xFF42bae9),
-        indicatorWeight: 5.0,
-        labelStyle: TextStyle(
-          fontSize:  ScreenUtil().setSp(30),
-        ),
-        labelColor: Color(0xFF42bae9),
-        unselectedLabelColor: Colors.black
-      ),
+          controller: _tabController,
+          tabs: tabs.map((e) => Tab(text: e)).toList(),
+          indicatorColor: Color(0xFF42bae9),
+          indicatorWeight: 5.0,
+          labelStyle: TextStyle(
+            fontSize: ScreenUtil().setSp(30),
+          ),
+          labelColor: Color(0xFF42bae9),
+          unselectedLabelColor: Colors.black),
     );
   }
 
@@ -123,13 +124,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   Widget _tabsPages() {
     return Container(
       width: ScreenUtil().setWidth(675),
-      height: ScreenUtil().setHeight(800),
+      height: ScreenUtil().setHeight(950),
       child: TabBarView(
         controller: _tabController,
-        children: <Widget>[
-          LoginDetail(),
-          Text('注册')
-        ],
+        children: <Widget>[LoginDetail(), Text('注册')],
       ),
     );
   }

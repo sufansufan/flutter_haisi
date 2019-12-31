@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../components/Picker.dart';
+// import 'package:provide/provide.dart';
+// import '../../provide//login.dart';
 
 class LoginDetail extends StatefulWidget {
   LoginDetail({Key key}) : super(key: key);
@@ -10,28 +13,25 @@ class LoginDetail extends StatefulWidget {
 
 class _LoginDetailState extends State<LoginDetail> {
   GlobalKey<FormState> loginKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Color _color;
-  var _dropValue;
+  String PickerData;
   @override
   void initState() {
     super.initState();
     _color = Color(0xFF42BAE9);
+    PickerData =  '''
+      [
+        [
+            "请选择用户",
+            "医生",
+            "普通用户"
+        ],
+        [],
+        []
+      ]
+    ''';
   }
-
-  final List<DropdownMenuItem> dropdownMenuItem = [
-    DropdownMenuItem(
-      child: Text('请选择你的身份'),
-      value: '0',
-    ),
-    DropdownMenuItem(
-      child: Text('医生'),
-      value: '1',
-    ),
-    DropdownMenuItem(
-      child: Text('普通用户'),
-      value: '2',
-    ),
-  ];
 
   InputDecoration inputDecoration(String url, String title) {
     return InputDecoration(
@@ -48,43 +48,48 @@ class _LoginDetailState extends State<LoginDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Form(
+    return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.white,
+      body: Form(
         key: loginKey,
         child: Column(
           children: <Widget>[
             Container(
-              width: ScreenUtil().setWidth(650),
-              padding: EdgeInsets.only(left: 20.0, right: 20.0),
-              margin: EdgeInsets.only(top: 30.0),
-              decoration: BoxDecoration(
-                color: Color(0xFFecf8fd),
-                borderRadius: BorderRadius.circular(50.0),
-              ),
-              // alignment: Alignment.topRight,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: 20.0),
-                    child: Image.asset('lib/images/login/name.png', width: ScreenUtil().setWidth(40), height: ScreenUtil().setHeight(40)),
-                  ),
-                  DropdownButton(
-                    items: dropdownMenuItem,
-                    hint: Text('请选择你的身份', style: TextStyle(color: _color, fontSize: ScreenUtil().setSp(32)),),
-                    style: TextStyle(
-                      color: _color,
+                width: ScreenUtil().setWidth(650),
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                margin: EdgeInsets.only(top: 30.0),
+                decoration: BoxDecoration(
+                  color: Color(0xFFecf8fd),
+                  borderRadius: BorderRadius.circular(50.0),
+                ),
+                // alignment: Alignment.topRight,
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: 20.0),
+                      child: Image.asset('lib/images/login/name.png',
+                          width: ScreenUtil().setWidth(40),
+                          height: ScreenUtil().setHeight(40)),
                     ),
-                    value: _dropValue,
-                    iconEnabledColor: _color,
-                    onChanged: (T) {
-                      setState(() {
-                        _dropValue = T;
-                      });
-                    },
-                  )
-                ],
-              )
-            ),
+                    Container(
+                      height: ScreenUtil().setHeight(100),
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        child: Text(
+                          '请选择你的身份',
+                          style: TextStyle(
+                            color: _color,
+                            fontSize: ScreenUtil().setSp(32),
+                          ),
+                        ),
+                        onTap: () {
+                          showPicker(context, PickerData);
+                        },
+                      )
+                    )
+                  ],
+                )),
             Container(
                 padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 margin: EdgeInsets.only(top: 30.0),
